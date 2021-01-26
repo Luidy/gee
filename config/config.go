@@ -1,6 +1,9 @@
 package config
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -38,41 +41,32 @@ func init() {
 	pflag.String("db_host", defaultConfig.ConfDBHOST, "db host")
 	pflag.Int("db_port", defaultConfig.ConfDBPORT, "db port")
 	pflag.String("db_name", defaultConfig.ConfDBNAME, "db name")
+	pflag.String("db_user", defaultConfig.ConfDBUSER, "db user")
 	pflag.String("db_pass", defaultConfig.ConfDBPASS, "db pass")
 
 	pflag.Parse()
-
-}
-
-func setConfig(defaults map[string]interface{}) *viper.Viper {
-	// default ->
-	config := viper.New()
-	for k, v := range defaults {
-		config.SetDefault(k, v)
+	Gee, err := setConfig(map[string]interface{}{})
+	if err != nil {
+		fmt.Printf("Config setting Error: %v\n", err)
+		os.Exit(1)
 	}
-
-	return config
+	Gee.BindPFlags(pflag.CommandLine)
 }
 
-// Configs ...
-var Configs = map[string]interface{}{
-	"serverPort":     18000,
-	"serverTimeout":  30,
-	"serverLogLevel": "debug",
-
-	"dbHost": "gee",
-	"dbPort": 3306,
-	"dbUser": "geeuser",
-	"dbPass": "geepass",
-	"dbName": "geedb",
-}
-
-func init() {
+func setConfig(defaults map[string]interface{}) (*ViperConfig, error) {
+	// setting config process: default -> env file -> command line
 	v := viper.New()
-	for key, value := range Configs {
-		v.SetDefault(key, value)
+	for k, d := range defaults {
+		v.SetDefault(k, d)
 	}
-	Gee = &ViperConfig{
+
+	v.AddConfigPath("./config")
+	v.SetConfigName(".env")
+	if err := v.ReadInConfig(); err != nil {
+		return &ViperConfig{}, err
+	}
+
+	return &ViperConfig{
 		Viper: v,
-	}
+	}, nil
 }
