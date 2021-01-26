@@ -60,6 +60,7 @@ func setConfig(defaults map[string]interface{}) (*ViperConfig, error) {
 		v.SetDefault(k, d)
 	}
 
+	v.AddConfigPath("./")
 	v.AddConfigPath("./config")
 	v.SetConfigName(".env")
 	if err := v.ReadInConfig(); err != nil {
