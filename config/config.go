@@ -59,11 +59,12 @@ var Configs = map[string]interface{}{
 	"serverPort":     18000,
 	"serverTimeout":  30,
 	"serverLogLevel": "debug",
-	"dbHost":         "gee",
-	"dbPort":         3306,
-	"dbUser":         "geeuser",
-	"dbPass":         "geepass",
-	"dbName":         "geedb",
+
+	"dbHost": "gee",
+	"dbPort": 3306,
+	"dbUser": "geeuser",
+	"dbPass": "geepass",
+	"dbName": "geedb",
 }
 
 func init() {
