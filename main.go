@@ -6,6 +6,9 @@ import (
 	"gomod/config"
 	"gomod/util"
 	"runtime"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 const (
@@ -32,4 +35,12 @@ func main() {
 
 	fmt.Printf(banner)
 	fmt.Println("Hello... GO World!")
+}
+
+func echoInit(gee *config.ViperConfig) *echo.Echo {
+	e := echo.New()
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.Recover())
+
+	return e
 }
