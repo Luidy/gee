@@ -4,7 +4,8 @@ package main
 import (
 	"fmt"
 	"gomod/config"
-	"gomod/util"
+	"log"
+	"net/http"
 	"runtime"
 
 	"github.com/labstack/echo/v4"
@@ -31,10 +32,8 @@ func init() {
 
 func main() {
 	Gee := config.Gee
-	_, _ = util.InitLog(Gee.GetString("loglevel"))
-
-	fmt.Printf(banner)
-	fmt.Println("Hello... GO World!")
+	e := echoInit(Gee)
+	startServer(Gee, e)
 }
 
 func echoInit(gee *config.ViperConfig) *echo.Echo {
@@ -42,5 +41,19 @@ func echoInit(gee *config.ViperConfig) *echo.Echo {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Recover())
 
+	healthCheck := func(c echo.Context) error {
+		return c.String(http.StatusOK, "Gee Alive.")
+	}
+	e.GET("/healthCheck", healthCheck)
+
+	e.HideBanner = true
 	return e
+}
+
+func startServer(gee *config.ViperConfig, e *echo.Echo) {
+	address := fmt.Sprintf("0.0.0.0:%d", gee.GetInt("port"))
+	fmt.Println(banner, address)
+	if err := e.Start(address); err != nil {
+		log.Print("End echo server", "err", err)
+	}
 }
