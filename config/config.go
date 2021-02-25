@@ -45,7 +45,8 @@ func init() {
 	pflag.String("db_pass", defaultConfig.ConfDBPASS, "db pass")
 
 	pflag.Parse()
-	Gee, err := setConfig(map[string]interface{}{})
+	var err error
+	Gee, err = setConfig(map[string]interface{}{})
 	if err != nil {
 		fmt.Printf("Config setting Error: %v\n", err)
 		os.Exit(1)
