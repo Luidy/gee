@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"gee/repository"
 	"gomod/config"
 	"log"
 	"net/http"
@@ -33,6 +34,7 @@ func init() {
 func main() {
 	Gee := config.Gee
 	e := echoInit(Gee)
+	repository.InitDB(Gee)
 	startServer(Gee, e)
 }
 
