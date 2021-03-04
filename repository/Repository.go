@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"gomod/config"
+	"gee/config"
 	"log"
 	"os"
 
@@ -11,7 +11,7 @@ import (
 )
 
 func InitDB(gee *config.ViperConfig) *gorm.DB {
-	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?chatset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=UTC",
+	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=UTC",
 		gee.GetString("db_user"),
 		gee.GetString("db_pass"),
 		gee.GetString("db_host"),

@@ -3,8 +3,8 @@ package main
 
 import (
 	"fmt"
+	"gee/config"
 	"gee/repository"
-	"gomod/config"
 	"log"
 	"net/http"
 	"runtime"
