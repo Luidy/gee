@@ -10,6 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// InitDB ...
 func InitDB(gee *config.ViperConfig) *gorm.DB {
 	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=UTC",
 		gee.GetString("db_user"),
@@ -26,4 +27,8 @@ func InitDB(gee *config.ViperConfig) *gorm.DB {
 		os.Exit(1)
 	}
 	return dbConn
+}
+
+// UserRepository ...
+type UserRepository interface {
 }
