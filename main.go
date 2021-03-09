@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"gee/api/controller"
 	"gee/config"
 	"gee/repository"
 	"log"
@@ -34,7 +35,11 @@ func init() {
 func main() {
 	Gee := config.Gee
 	e := echoInit(Gee)
-	repository.InitDB(Gee)
+	db := repository.InitDB(Gee)
+	if err := controller.InitHandler(Gee, e, db); err != nil {
+		log.Println("InitHandler err", err.Error())
+	}
+
 	startServer(Gee, e)
 }
 

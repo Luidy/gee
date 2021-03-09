@@ -8,4 +8,4 @@ services:
       MYSQL_USER: geeuser
       MYSQL_PASSWORD: geepass
     ports:
-      - 3306:3306
+      - 13306:3306

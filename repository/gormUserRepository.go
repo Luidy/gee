@@ -21,7 +21,7 @@ func NewGormUserRepository(conn *gorm.DB) UserRepository {
 	return &gormUserRepository{Conn: conn}
 }
 
-func (g *gormUserRepository) RegisterUser(ctx context.Context, user *model.User) (ruser *model.User, err error) {
+func (g *gormUserRepository) CreateUser(ctx context.Context, user *model.User) (ruser *model.User, err error) {
 	scope := g.Conn.WithContext(ctx)
 	if err := scope.Create(&user).Error; err != nil {
 		log.Println("gormUserRepository RegisterUser err", err)

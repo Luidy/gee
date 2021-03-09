@@ -33,5 +33,5 @@ func InitDB(gee *config.ViperConfig) *gorm.DB {
 
 // UserRepository ...
 type UserRepository interface {
-	RegisterUser(ctx context.Context, user *model.User) (ruser *model.User, err error)
+	CreateUser(ctx context.Context, user *model.User) (ruser *model.User, err error)
 }
