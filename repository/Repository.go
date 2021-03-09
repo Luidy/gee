@@ -1,8 +1,10 @@
 package repository
 
 import (
+	"context"
 	"fmt"
 	"gee/config"
+	"gee/model"
 	"log"
 	"os"
 
@@ -31,4 +33,5 @@ func InitDB(gee *config.ViperConfig) *gorm.DB {
 
 // UserRepository ...
 type UserRepository interface {
+	RegisterUser(ctx context.Context, user *model.User) (ruser *model.User, err error)
 }
