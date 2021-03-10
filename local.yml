@@ -9,3 +9,11 @@ services:
       MYSQL_PASSWORD: geepass
     ports:
       - 13306:3306
+  
+  gee:
+    build: .
+    ports:
+      - 10620:10620
+    depends_on:
+      - mysql
+    restart: always
