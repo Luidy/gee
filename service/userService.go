@@ -30,10 +30,11 @@ func (u *userService) GetUser(ctx context.Context, id uint64) (ruser *model.User
 }
 
 func (u *userService) UpdateUser(ctx context.Context, user *model.User) (ruser *model.User, err error) {
-	if ruser, err := u.uRepo.GetUser(ctx, user.ID); err != nil {
+	ruser, err = u.uRepo.GetUser(ctx, uint64(user.ID))
+	if err != nil {
 		return nil, err
 	}
-	ruser = ruser.UpdateUser(user)
+	ruser.UpdateUser(user)
 	if err := u.uRepo.UpdateUser(ctx, ruser); err != nil {
 		return nil, err
 	}
@@ -41,7 +42,8 @@ func (u *userService) UpdateUser(ctx context.Context, user *model.User) (ruser *
 }
 
 func (u *userService) DeleteUser(ctx context.Context, id uint64) (ruser *model.User, err error) {
-	if ruser, err := u.uRepo.GetUser(ctx, id); err != nil {
+	ruser, err = u.uRepo.GetUser(ctx, id)
+	if err != nil {
 		return nil, err
 	}
 	if err := u.uRepo.DeleteUser(ctx, id); err != nil {

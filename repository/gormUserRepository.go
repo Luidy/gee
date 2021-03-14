@@ -48,7 +48,7 @@ func (g *gormUserRepository) GetUser(ctx context.Context, id uint64) (ruser *mod
 	return ruser, nil
 }
 
-func (g *gormUserRepository) UpdateUser(ctx context.Context, id uint64) (err error) {
+func (g *gormUserRepository) UpdateUser(ctx context.Context, user *model.User) (err error) {
 	scope := g.Conn.WithContext(ctx)
 	if err := scope.Updates(&user).Error; err != nil {
 		log.Println("gormUserRepository UpdateUser err", err)
@@ -60,7 +60,7 @@ func (g *gormUserRepository) UpdateUser(ctx context.Context, id uint64) (err err
 
 func (g *gormUserRepository) DeleteUser(ctx context.Context, id uint64) (err error) {
 	scope := g.Conn.WithContext(ctx)
-	if err := scope.Delete(&user).Error; err != nil {
+	if err := scope.Delete(&model.User{}).Where("id= ?", id).Error; err != nil {
 		log.Println("gormUserRepository DeleteUser err", err)
 		return err
 	}
