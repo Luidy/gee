@@ -18,10 +18,13 @@ func newHTTPHandler(gee *config.ViperConfig,
 	eg *echo.Group,
 	uSvc service.UserService) {
 
-	handler := httpHandler{
+	handler := &httpHandler{
 		uSvc: uSvc,
 	}
 	eg.POST("/register", handler.RegisterUser)
+
+	userGroup := eg.Group("/user")
+	newHTTPUserHandler(userGroup, handler)
 }
 
 func (h *httpHandler) RegisterUser(c echo.Context) (err error) {

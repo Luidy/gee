@@ -4,6 +4,7 @@ import (
 	"context"
 	"gee/model"
 	"gee/repository"
+	"strconv"
 )
 
 type userService struct {
@@ -25,8 +26,9 @@ func (u *userService) GetUserList(ctx context.Context) (rusers model.Users, err 
 	return u.uRepo.GetUserList(ctx)
 }
 
-func (u *userService) GetUser(ctx context.Context, id uint64) (ruser *model.User, err error) {
-	return u.uRepo.GetUser(ctx, id)
+func (u *userService) GetUser(ctx context.Context, id string) (ruser *model.User, err error) {
+	uid, _ := strconv.ParseUint(id, 0, 64)
+	return u.uRepo.GetUser(ctx, uid)
 }
 
 func (u *userService) UpdateUser(ctx context.Context, user *model.User) (ruser *model.User, err error) {
@@ -41,12 +43,13 @@ func (u *userService) UpdateUser(ctx context.Context, user *model.User) (ruser *
 	return ruser, nil
 }
 
-func (u *userService) DeleteUser(ctx context.Context, id uint64) (ruser *model.User, err error) {
-	ruser, err = u.uRepo.GetUser(ctx, id)
+func (u *userService) DeleteUser(ctx context.Context, id string) (ruser *model.User, err error) {
+	uid, _ := strconv.ParseUint(id, 0, 64)
+	ruser, err = u.uRepo.GetUser(ctx, uid)
 	if err != nil {
 		return nil, err
 	}
-	if err := u.uRepo.DeleteUser(ctx, id); err != nil {
+	if err := u.uRepo.DeleteUser(ctx, uid); err != nil {
 		return nil, err
 	}
 	return ruser, nil
